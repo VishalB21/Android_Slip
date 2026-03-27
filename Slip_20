@@ -1,0 +1,118 @@
+ q1]
+
+1] activity_main.xml 
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="20dp" android:gravity="center">
+    <EditText android:id="@+id/etBase" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="Enter Base" 
+android:inputType="numberDecimal"/>
+    <EditText android:id="@+id/etExp" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="Enter Exponent" 
+android:inputType="numberDecimal"/>
+    <Button android:id="@+id/btnCalculate" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="Calculate" 
+android:layout_marginTop="16dp"/>
+</LinearLayout>
+   
+2] MainActivity.java 
+
+package com.example.poweraverage;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        EditText etBase = findViewById(R.id.etBase);
+        EditText etExp  = findViewById(R.id.etExp);
+        findViewById(R.id.btnCalculate).setOnClickListener(v -> {
+            Intent i = new Intent(this, MainActivity2.class);
+            i.putExtra("base", etBase.getText().toString());
+            i.putExtra("exp",  etExp.getText().toString());
+            startActivity(i);
+        });
+    }
+}
+  
+3] activity_main2.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="24dp" android:gravity="center">
+    <TextView android:id="@+id/tvPower" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:textSize="22sp"
+        android:textStyle="bold" android:textColor="#1565C0"/>
+    <TextView android:id="@+id/tvAverage" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:textSize="22sp"
+        android:textStyle="bold" android:textColor="#2E7D32" android:layout_marginTop="16dp"/>
+</LinearLayout>
+ 
+4] MainActivity2.java 
+
+package com.example.poweraverage;
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity2 extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
+        double base = Double.parseDouble(getIntent().getStringExtra("base"));
+        double exp  = Double.parseDouble(getIntent().getStringExtra("exp"));
+        double power   = Math.pow(base, exp);
+        double average = (base + exp) / 2;
+        ((TextView) findViewById(R.id.tvPower)).setText("Power   = " + power);
+        ((TextView) findViewById(R.id.tvAverage)).setText("Average = " + average);
+    }
+}
+
+q2]
+
+1]  activity_main.xml 
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:gravity="center" android:orientation="vertical" android:padding="20dp">
+    <Button android:id="@+id/btnShowFriends"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Show Friends List" android:textSize="18sp"/>
+    <TextView android:id="@+id/tvGreeting"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textSize="20sp" android:textStyle="bold" android:textColor="#4A148C"
+        android:layout_marginTop="24dp"/>
+</LinearLayout>
+  
+2] MainActivity.java 
+
+package com.example.friendsdialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.widget.*;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    final String[] friends = {"Alice", "Bob", "Charlie", "Diana"};
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        TextView tvGreeting = findViewById(R.id.tvGreeting);
+        findViewById(R.id.btnShowFriends).setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Select a Friend");
+            builder.setItems(friends, (dialog, which) ->
+                tvGreeting.setText("Hello, " + friends[which] + "! How are you?"));
+            builder.setNegativeButton("Cancel", null);
+            builder.show();
+        });
+    }
+}
