@@ -1,0 +1,64 @@
+1]  activity_main.xml 
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Download"
+        android:textSize="18sp"/>
+</LinearLayout>
+   
+2] MainActivity.java
+
+package com.example.asynctaskdemo;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button btn = findViewById(R.id.btnStart);
+        btn.setOnClickListener(v -> new DownloadTask().execute());
+    }
+    class DownloadTask extends AsyncTask<Void, Integer, String> {
+        ProgressDialog pd;
+        @Override
+        protected void onPreExecute() {
+            pd = new ProgressDialog(MainActivity.this);
+            pd.setTitle("Downloading...");
+            pd.setMessage("Please wait...");
+            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            pd.setMax(100);
+            pd.show();
+        }
+        @Override
+        protected String doInBackground(Void... params) {
+            for (int i = 0; i <= 100; i += 10) {
+                try { Thread.sleep(500); } catch (InterruptedException e) { e.printStackTrace(); }
+                publishProgress(i);
+            }
+            return "Download Complete!";
+        }
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            pd.setProgress(values[0]);
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            pd.dismiss();
+            android.widget.Toast.makeText(MainActivity.this, result, 
+android.widget.Toast.LENGTH_LONG).show();
+        }
+    }
+}
