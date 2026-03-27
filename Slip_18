@@ -1,0 +1,136 @@
+q1]
+
+1]  activity_main.xml 
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:gravity="center" android:padding="20dp">
+    <ImageView android:id="@+id/ivBulb"
+        android:layout_width="120dp" android:layout_height="120dp"
+        android:src="@drawable/bulb_off"/>
+    <TextView android:id="@+id/tvStatus"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Bulb is OFF" android:textSize="18sp"
+        android:textColor="#B71C1C" android:layout_marginTop="12dp"/>
+    <ToggleButton android:id="@+id/toggleBulb"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textOn="Turn OFF Bulb" android:textOff="Turn ON Bulb"
+        android:layout_marginTop="16dp" android:textSize="16sp"/>
+</LinearLayout>
+  
+  2] MainActivity.java 
+
+package com.example.bulbtoggle;
+import android.os.Bundle;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ImageView ivBulb    = findViewById(R.id.ivBulb);
+        TextView tvStatus   = findViewById(R.id.tvStatus);
+        ToggleButton toggle = findViewById(R.id.toggleBulb);
+        toggle.setOnCheckedChangeListener((btn, isChecked) -> {
+            if (isChecked) {
+                ivBulb.setImageResource(R.drawable.bulb_on);
+                ivBulb.setBackgroundColor(0xFFFFD600);
+                tvStatus.setText("Bulb is ON");
+                tvStatus.setTextColor(0xFF2E7D32);
+            } else {
+                ivBulb.setImageResource(R.drawable.bulb_off);
+                ivBulb.setBackgroundColor(0xFFBBBBBB);
+                tvStatus.setText("Bulb is OFF");
+                tvStatus.setTextColor(0xFFB71C1C);
+            }
+        });
+    }
+}
+
+q2]
+
+1]  activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="16dp" android:stretchColumns="1">
+    <TableRow>
+        <TextView android:text="Name:" android:textSize="16sp" android:padding="8dp"/>
+        <EditText android:id="@+id/etName" android:layout_width="0dp" android:layout_weight="1"
+            android:hint="Enter Name"/>
+    </TableRow>
+    <TableRow>
+        <TextView android:text="Roll No:" android:textSize="16sp" android:padding="8dp"/>
+        <EditText android:id="@+id/etRoll" android:layout_width="0dp" android:layout_weight="1"
+            android:hint="Enter Roll No"/>
+    </TableRow>
+    <TableRow>
+        <TextView android:text="Class:" android:textSize="16sp" android:padding="8dp"/>
+        <EditText android:id="@+id/etClass" android:layout_width="0dp" android:layout_weight="1"
+            android:hint="Enter Class"/>
+    </TableRow>
+    <TableRow android:gravity="center">
+        <Button android:id="@+id/btnSubmit" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Submit"
+            android:layout_span="2" android:layout_marginTop="16dp"/>
+    </TableRow>
+</TableLayout>
+  
+  2] MainActivity.java
+
+package com.example.tableformdemo;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        EditText etName  = findViewById(R.id.etName);
+        EditText etRoll  = findViewById(R.id.etRoll);
+        EditText etClass = findViewById(R.id.etClass);
+        findViewById(R.id.btnSubmit).setOnClickListener(v -> {
+            Intent i = new Intent(this, MainActivity2.class);
+            i.putExtra("name",  etName.getText().toString());
+            i.putExtra("roll",  etRoll.getText().toString());
+            i.putExtra("clazz", etClass.getText().toString());
+            startActivity(i);
+        });
+    }
+}
+  
+3] activity_main2.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="20dp" android:gravity="center">
+    <TextView android:id="@+id/tvDetails"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textSize="18sp" android:padding="16dp" android:background="#E8F5E9"
+        android:textColor="#1B5E20"/>
+</LinearLayout>
+
+4] MainActivity2.java 
+
+package com.example.tableformdemo;
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity2 extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
+        android.content.Intent i = getIntent();
+        String info = "Name  : " + i.getStringExtra("name") +
+            "\nRoll  : " + i.getStringExtra("roll") +
+            "\nClass : " + i.getStringExtra("clazz");
+        ((TextView) findViewById(R.id.tvDetails)).setText(info);
+    }
+}
