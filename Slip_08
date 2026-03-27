@@ -1,0 +1,119 @@
+q1]
+
+1]  activity_main.xml 
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="20dp" android:gravity="center">
+    <EditText android:id="@+id/etNum1" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="Enter first number"
+        android:inputType="number"/>
+    <EditText android:id="@+id/etNum2" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="Enter second number"
+        android:inputType="number" android:layout_marginTop="10dp"/>
+    <Button android:id="@+id/btnSubmit" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="Submit"
+        android:layout_marginTop="16dp"/>
+    <TextView android:id="@+id/tvResult" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:textSize="16sp"
+        android:layout_marginTop="16dp" android:textColor="#E65100"/>
+</LinearLayout>
+   
+2] MainActivity.java 
+
+package com.example.twonumbers;
+import android.os.Bundle;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    EditText etNum1, etNum2;
+    TextView tvResult;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        etNum1   = findViewById(R.id.etNum1);
+        etNum2   = findViewById(R.id.etNum2);
+        tvResult = findViewById(R.id.tvResult);
+        findViewById(R.id.btnSubmit).setOnClickListener(v -> {
+            int n1 = Integer.parseInt(etNum1.getText().toString());
+            int n2 = Integer.parseInt(etNum2.getText().toString());
+            if (n1 > 10 && n2 > 10) {
+                tvResult.setText("Both numbers > 10! Please enter new numbers.");
+                etNum1.setText(""); etNum2.setText("");
+            } else {
+                tvResult.setText("Accepted: " + n1 + " and " + n2);
+            }
+        });
+    }
+}
+
+q2]
+
+1]  activity_main.xml 
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="16dp" android:gravity="center">
+    <Button android:id="@+id/btnGetLocation" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="Get Current Location" 
+android:textSize="16sp"/>
+    <TextView android:id="@+id/tvLocation" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:textSize="14sp" android:padding="16dp"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>
+
+2] MainActivity.java 
+
+package com.example.gpslocation;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.*;
+import android.os.Bundle;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import java.io.IOException;
+import java.util.*;
+public class MainActivity extends AppCompatActivity {
+    TextView tvLocation;
+    LocationManager lm;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        tvLocation = findViewById(R.id.tvLocation);
+        lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+        ActivityCompat.requestPermissions(this,
+            new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        findViewById(R.id.btnGetLocation).setOnClickListener(v -> getLocation());
+    }
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            tvLocation.setText("Location permission not granted.");
+            return;
+        }
+        Location loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (loc == null) loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (loc != null) {
+            double lat = loc.getLatitude(), lng = loc.getLongitude();
+            Geocoder gc = new Geocoder(this, Locale.getDefault());
+            try {
+                List<Address> addresses = gc.getFromLocation(lat, lng, 1);
+                if (!addresses.isEmpty()) {
+                    Address addr = addresses.get(0);
+                    tvLocation.setText("Address: " + addr.getAddressLine(0) +
+                        "\nCity: " + addr.getLocality() +
+                        "\nLat: " + lat + "  Lng: " + lng);
+                }
+            } catch (IOException e) {
+                tvLocation.setText("Lat: " + lat + "\nLng: " + lng);
+            }
+        } else {
+            tvLocation.setText("Location unavailable. Enable GPS.");
+        }
+    }
+}
