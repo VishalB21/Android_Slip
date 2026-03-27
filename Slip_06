@@ -1,0 +1,294 @@
+ q1]
+
+1] activity_main.xml 
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Radio Button and checkbox Demo"
+        android:layout_marginTop="50dp"></TextView>
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp">
+        <RadioButton
+            android:id="@+id/rbtFy"
+            android:layout_width="166dp"
+            android:layout_height="wrap_content"
+            android:text="FYBBA CA"></RadioButton>
+        <RadioButton
+            android:id="@+id/rbtSy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SYBBA CA"></RadioButton>
+        <RadioButton
+            android:id="@+id/rbtTy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TYBBA CA"></RadioButton>
+    </RadioGroup>
+    <CheckBox
+        android:id="@+id/chk1"
+        android:layout_width="132dp"
+        android:layout_height="wrap_content"
+        android:text="CPP"></CheckBox>
+    <CheckBox
+        android:id="@+id/chk2"
+        android:layout_width="129dp"
+        android:layout_height="wrap_content"
+        android:text="DS"></CheckBox>
+    <CheckBox
+        android:id="@+id/chk3"
+        android:layout_width="174dp"
+        android:layout_height="wrap_content"
+        android:text="JAVA"></CheckBox>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="71dp">
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Display" />
+            <Button
+                android:id="@+id/btReset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Reset" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
+  
+2] MainActivity.java
+
+package com.example.radiobuttoncheckbox;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.Toast;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        RadioButton bt1,bt2,bt3;
+        CheckBox ck1,ck2,ck3;
+        Button display,reset;
+        bt1=findViewById(R.id.rbtFy);
+        bt2=findViewById(R.id.rbtSy);
+        bt3=findViewById(R.id.rbtTy);
+        display=findViewById(R.id.btDisplay);
+        ck1=findViewById(R.id.chk1);
+        ck2=findViewById(R.id.chk2);
+        ck3=findViewById(R.id.chk3);
+        reset=findViewById(R.id.btReset);
+        display.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                String msg1="",msg2="";
+                if(bt1.isChecked())
+                {
+                    msg1="FY BBA CA";
+                }
+                if(bt2.isChecked())
+                {
+                    msg1="SY BBA CA";
+                }
+                if(bt3.isChecked())
+                {
+                    msg1="TY BBA CA";
+                }
+                if(ck1.isChecked())
+                {
+                    msg2=" CPP";
+                }
+                if(ck2.isChecked())
+                {
+                    msg2=msg2+" DS";
+                }
+                if(ck3.isChecked())
+                {
+                    msg2=msg2+" JAVA";
+                }
+                Toast.makeText(getApplicationContext(),msg1+"\n"+msg2,Toast.LENGTH_LONG).show();
+            }
+        });
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                ck1.setChecked(false);
+                ck2.setChecked(false);
+                ck3.setChecked(false);
+                bt1.setChecked(false);
+                bt2.setChecked(false);
+                bt3.setChecked(false);
+            }
+        });
+    }
+}
+
+q2]
+
+1]  activity_main.xml 
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="318dp"
+        android:layout_height="69dp"
+        android:text="Phone Calling"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.827"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.078" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="282dp"
+        android:layout_height="66dp"
+        android:text="Enter Mobile No"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.637"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.089" />
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="294dp"
+        android:layout_height="60dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.572"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.052" />
+    <Button
+        android:id="@+id/button"
+        android:layout_width="207dp"
+        android:layout_height="73dp"
+        android:text="Dial"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.544"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText"
+        app:layout_constraintVertical_bias="0.133" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+ 
+2] AndroidManifest.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.PhoneCall"
+        tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
+  
+3] MainActivity.java 
+
+package com.example.phonecall;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        EditText mno;
+        Button call;
+        mno = findViewById(R.id.editTextText);
+        call = findViewById(R.id.button);
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phone_number = mno.getText().toString();
+                 // Getting instance of Intent with action as ACTION_CALL
+                Intent phone_intent = new Intent(Intent.ACTION_CALL);
+                // Set data of Intent through Uri by parsing phone number
+                phone_intent.setData(Uri.parse("tel:" + phone_number));
+                // start Intent
+                startActivity(phone_intent);
+            }
+        });
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+}
+
