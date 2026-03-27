@@ -1,0 +1,191 @@
+q1]
+
+1] Activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    >
+    <Switch
+        android:id="@+id/simpleSwitch"
+        android:layout_width="138dp"
+        android:layout_height="12dp"
+        android:checked="true"
+        android:textOff="off"
+        android:textOn="onn"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.442"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.086" />
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="ToggleButton"
+        android:textOff="Off"
+        android:textOn="On"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/simpleSwitch"
+        app:layout_constraintVertical_bias="0.228" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="340dp"
+        android:layout_height="52dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/toggleButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/simpleSwitch" />
+    <TextView
+        android:layout_width="330dp"
+        android:layout_height="49dp"
+        android:text=""
+        android:id="@+id/tb2"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toggleButton"
+        app:layout_constraintVertical_bias="0.121"></TextView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+  
+2] MainActivity.java 
+
+package com.example.togglebuttonswitchdemo;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+public class MainActivity extends AppCompatActivity {
+    Switch simpleSwitch;
+    ToggleButton toggleButton;
+    TextView switchtv,togglebuttontv;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        simpleSwitch = (Switch) findViewById(R.id.simpleSwitch);
+        toggleButton=(ToggleButton)findViewById(R.id.toggleButton);
+        switchtv=findViewById(R.id.textView);
+        togglebuttontv=findViewById(R.id.tb2);
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if (checked) {
+                    togglebuttontv.setText("Toggle button is ON");
+                } else {
+                    togglebuttontv.setText("Toggle button is OFF");
+                }
+            }
+        });
+        simpleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if (checked) {
+                    switchtv.setText("Switch button is ON");
+                } else {
+                    switchtv.setText("Switch button is OFF");
+                }
+            }
+        });
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+}
+
+q2]
+
+1]  activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="16dp">
+    <Button android:id="@+id/btnLoadFragment"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Load Fragment"/>
+    <FrameLayout android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>
+   
+2] MainActivity.java
+
+package com.example.fragmentdemo;
+import android.os.Bundle;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button btn = findViewById(R.id.btnLoadFragment);
+        btn.setOnClickListener(v -> {
+            MyFragment fragment = new MyFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragmentContainer, fragment);
+            ft.commit();
+        });
+    }
+}
+  
+3] fragment_my.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="16dp" android:background="#E3F2FD">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Hello from Fragment!" android:textSize="20sp" android:textColor="#1565C0"
+        android:textStyle="bold"/>
+    <Button android:id="@+id/btnFragAction"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Click Me" android:layout_marginTop="12dp"/>
+</LinearLayout>
+   
+4] MyFragment.java
+
+package com.example.fragmentdemo;
+import android.os.Bundle;
+import android.view.*;
+import android.widget.*;
+import androidx.fragment.app.Fragment;
+public class MyFragment extends Fragment {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_my, container, false);
+        Button btn = v.findViewById(R.id.btnFragAction);
+        btn.setOnClickListener(b ->
+            Toast.makeText(getContext(), "Fragment Button Clicked!", Toast.LENGTH_SHORT).show());
+        return v;
+    }
+}
