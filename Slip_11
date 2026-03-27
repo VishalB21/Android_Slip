@@ -1,0 +1,123 @@
+q1]
+
+1]  activity_main.xml 
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Hello!"
+        android:textSize="20sp"/>
+</LinearLayout>
+  
+2] MainActivity.java
+
+package com.example.intenthi;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button btn = findViewById(R.id.btnSend);
+        btn.setOnClickListener(v -> {
+            Intent i = new Intent(this, MainActivity2.class);
+            i.putExtra("message", "Hi");
+            startActivity(i);
+        });
+    }
+}
+
+  3] activity_main2.xml  
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <TextView
+        android:id="@+id/tvMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:textColor="#1565C0"/>
+</LinearLayout>
+
+4] MainActivity2.java
+
+package com.example.intenthi;
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity2 extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
+        TextView tv = findViewById(R.id.tvMsg);
+        tv.setText(getIntent().getStringExtra("message"));
+    }
+}
+
+q2]
+
+1] Activvity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="16dp">
+    <ImageView android:id="@+id/ivPhoto" android:layout_width="80dp"
+        android:layout_height="80dp" android:src="@drawable/ic_person"
+        android:layout_gravity="center" android:scaleType="centerCrop"/>
+    <EditText android:id="@+id/etName" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="Full Name" 
+android:layout_marginTop="12dp"/>
+    <EditText android:id="@+id/etPhone" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="Contact Number" 
+android:inputType="phone"/>
+    <EditText android:id="@+id/etEmail" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:hint="E-mail ID" 
+android:inputType="textEmailAddress"/>
+    <Button android:id="@+id/btnSave" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="Save" android:layout_gravity="center"
+        android:layout_marginTop="16dp"/>
+    <TextView android:id="@+id/tvResult" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:textSize="14sp" android:padding="8dp"
+        android:background="#F3E5F5" android:layout_marginTop="12dp"/>
+</LinearLayout>
+
+2] MainActivity.java 
+
+package com.example.customcontact;
+import android.os.Bundle;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        EditText etName  = findViewById(R.id.etName);
+        EditText etPhone = findViewById(R.id.etPhone);
+        EditText etEmail = findViewById(R.id.etEmail);
+        TextView tvResult = findViewById(R.id.tvResult);
+        findViewById(R.id.btnSave).setOnClickListener(v -> {
+            String result = "Name:  " + etName.getText() +
+                "\nPhone: " + etPhone.getText() +
+                "\nEmail: " + etEmail.getText();
+            tvResult.setText(result);
+            Toast.makeText(this, "Contact Saved!", Toast.LENGTH_SHORT).show();
+        });
+    }
+}
